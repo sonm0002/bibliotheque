@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Spectre CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+  <title>Ajax example</title>
+</head>
+
+<body>
+  <div class="container">
+    <form>
+      <div class="form-group">
+        <label class="form-label">
+          Search
+          <input class="form-input" type="text" placeholder="Artist name" list="artistlist">
+          <datalist id="artistlist">
+
+          </datalist>
+        </label>
+      </div>
+    </form>
+
+    <p>
+    </p>
+  </div>
+  <script src="ajaxrequest-fetch.js"></script>
+  <script>
+    var form = document.querySelector("form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+
+    var input = document.querySelector("input");
+    input.addEventListener("keyup", (event) => {
+      new AjaxRequest({
+        url: "liste_artistes.php",
+        method: 'get',
+        handleAs: 'text',
+        parameters: { q: input.value },
+        onSuccess: function (res) {
+          var artistList = res.split(",");
+          console.log(artistList);
+          var html = "";
+          for (artist of artistList) {
+            html += "<option value=\"" + artist + "\">";
+          }
+
+          var list = document.querySelector("#artistlist");
+          list.innerHTML = html;
+        },
+        onError: function (status, message) {
+          console.log('AjaxRequest error ' + status + ': ' + message);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

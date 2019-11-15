@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Suggestions de noms en AJAX</title>
+  <style type='text/css'>
+    body {
+      background-color: white;
+      min-height: 230px;
+    }
+  </style>
+  <script type='text/javascript' src='ajaxrequest-v2.js'></script>
+  <script type='text/javascript'>
+    window.onload = function () {
+      // Création de la requête AJAX
+      new AjaxRequest(
+        {
+          url: "test_request.php",
+          method: 'post',
+          handleAs: 'text',
+          parameters: { q: 'a12' },
+          onSuccess: function (res) {
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(res));
+            document.getElementById('test_results').appendChild(li);
+          },
+          onError: function (status, message) {
+            window.alert('Error ' + status + ': ' + message);
+          }
+        });
+
+      // Création de la requête AJAX
+      new AjaxRequest(
+        {
+          url: "test_request.php",
+          method: 'get',
+          handleAs: 'text',
+          parameters: { q: 'test&a=12' },
+          onSuccess: function (res) {
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(res));
+            document.getElementById('test_results').appendChild(li);
+          },
+          onError: function (status, message) {
+            window.alert('Error ' + status + ': ' + message);
+          }
+        });
+      // Création de la requête AJAX
+      new AjaxRequest(
+        {
+          url: "test_request.php",
+          method: 'get',
+          handleAs: 'json',
+          parameters: { 'json': 'json' },
+          onSuccess: function (res) {
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(res.value));
+            document.getElementById('test_results').appendChild(li);
+          },
+          onError: function (status, message) {
+            window.alert('Error ' + status + ': ' + message);
+          }
+        });
+      // Création de la requête AJAX
+      new AjaxRequest(
+        {
+          url: "test_request.php",
+          method: 'get',
+          handleAs: 'xml',
+          parameters: { 'xml': 'xml' },
+          onSuccess: function (res) {
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode(res.getElementsByTagName('result')[0].firstChild.nodeValue));
+            document.getElementById('test_results').appendChild(li);
+          },
+          onError: function (status, message) {
+            window.alert('Error ' + status + ': ' + message);
+          }
+        });
+      // Création de la requête AJAX
+      new AjaxRequest(
+        {
+          url: "test_request.php",
+          method: 'get',
+          handleAs: 'text',
+          parameters: { error: 'test&a=12' },
+          onSuccess: function (res) {
+          },
+          onError: function (status, message) {
+            var li = document.createElement('li');
+            li.appendChild(document.createTextNode('Erreur ' + status + ': ' + message));
+            document.getElementById('test_results').appendChild(li);
+          }
+        });
+
+      }
+  </script>
+
+</head>
+
+<body>
+  <div id='page'>
+    <h1>Résultats des tests automatiques</h1>
+    <ul id='test_results'></ul>
+    <span id='lastmodified'>
+      Dernière modification de cette page le 02/10/2018 à 16h55
+    </span>
+  </div>
+</body>
+
+</html>
